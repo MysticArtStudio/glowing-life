@@ -466,6 +466,42 @@
     background: var(--moos);
   }
 
+  /* --------------------------------------------------------- STIMMEN
+     Echte Kommentare von der itch-Seite, mit Namen. Bewusst ohne
+     Anfuehrungszeichen-Ornament und ohne Kasten: es sind zwei Saetze von
+     zwei Leuten, keine Werbebanner. Der senkrechte Strich links markiert
+     sie als Zitat, mehr braucht es nicht. */
+  .stimmen {
+    list-style: none;
+    margin-block: 28px 0;
+    padding: 0;
+    display: grid;
+    gap: 30px;
+  }
+  @media (min-width: 760px) {
+    .stimmen { grid-template-columns: repeat(2, 1fr); gap: 44px; }
+  }
+  .stimmen li {
+    border-left: 2px solid var(--glut-tief);
+    padding-left: 18px;
+  }
+  .stimmen blockquote {
+    margin: 0;
+    font-family: var(--schrift-anzeige);
+    font-size: clamp(19px, 2.6vw, 23px);
+    line-height: 1.4;
+    color: var(--pergament);
+  }
+  .stimmen cite {
+    display: block;
+    margin-top: 12px;
+    font-style: normal;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--glut);
+  }
+  .stimmen cite span { color: var(--gedaempft); letter-spacing: 0; }
+
   /* ------------------------------------------------------------- MACHER */
 
   .macher {
@@ -612,7 +648,7 @@
 
     <p class="bildhinweis">
       Move your cursor across the picture. The forest comes back wherever your
-      light falls, and <strong>Fade</strong> runs it the other way.
+      light falls and <strong>Fade</strong> runs it the other way.
     </p>
   </div>
   </header>
@@ -655,7 +691,7 @@
                autoplay loop muted playsinline preload="metadata"
                disablepictureinpicture disableremoteplayback
                aria-label="A book on the forest floor, its pages turning to show the places you can go"></video>
-        <figcaption>You do not pick a level from a menu. You turn the pages of a book, and each one holds a place.</figcaption>
+        <figcaption>You do not pick a level from a menu. You turn the pages of a book and each one holds a place.</figcaption>
       </figure>
       <div>
         <p class="marke">Five places so far</p>
@@ -678,7 +714,7 @@
     <div class="band">
       <figure class="bild">
         <img src="img/voegel.jpg" alt="A pink bird and a yellow bird sitting close together on a branch above a glowing pond">
-        <figcaption>Fourteen different plumages, and every bird a slightly different size.</figcaption>
+        <figcaption>Fourteen different plumages and every bird a slightly different size.</figcaption>
       </figure>
       <div>
         <p class="marke">What comes back</p>
@@ -691,7 +727,7 @@
         <p class="fliess">
           <strong>Walk into them and they do not scatter. They make room.</strong>
           A hop to the side, a few quick steps, or a short low arc to a spot
-          two meters over, and then they settle again. And if you stand still
+          two meters over and then they settle again. And if you stand still
           long enough, one of them will land on your head.
         </p>
       </div>
@@ -722,6 +758,22 @@
         </p>
       </div>
     </div>
+  </section>
+
+  <hr class="teiler">
+
+  <section>
+    <p class="marke">What people say</p>
+    <ul class="stimmen">
+      <li>
+        <blockquote>I love it! The graphic, sfx are calming.</blockquote>
+        <cite>littlehaven1 <span>on itch.io</span></cite>
+      </li>
+      <li>
+        <blockquote>Very nice game, the visuals are great! Hope the developer keep working on it. Made me calm.</blockquote>
+        <cite>LinusWestling4 <span>on itch.io</span></cite>
+      </li>
+    </ul>
   </section>
 
   <hr class="teiler">
