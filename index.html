@@ -168,14 +168,30 @@
     max-width: 46ch;
   }
   .kanaele a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     color: var(--gedaempft);
     text-decoration: none;
     font-size: 14px;
-    letter-spacing: 0.06em;
-    border-bottom: 1px solid transparent;
-    padding-bottom: 2px;
+    letter-spacing: 0.04em;
+    transition: color 0.15s ease;
   }
-  .kanaele a:hover { color: var(--glut); border-bottom-color: var(--glut); }
+  .kanaele a:hover { color: var(--glut); }
+  .kanaele a:hover span { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Die vier Marken als schlichte Striche gezeichnet, nicht als Bilddateien:
+     so nehmen sie die Schriftfarbe an und wiegen nichts. */
+  .kanaele svg {
+    width: 17px;
+    height: 17px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
 
   /* ------------------------------------------------- DAS LICHT IM WALD */
 
@@ -306,6 +322,19 @@
   }
   .wink[data-weg="ja"] { opacity: 0; }
 
+  /* DER HINWEIS UNTER DEM BILD.
+     Tobi: "vllt ein dezenter hinweis das es was bringt das man ueber die
+     bildmaske faehrt, sonst macht man das ja nicht". Der Zettel IM Bild
+     verschwindet nach der ersten Bewegung, dieser hier bleibt stehen und
+     erklaert auch den Wake/Fade-Schalter. */
+  .bildhinweis {
+    margin-block: 12px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--gedaempft);
+  }
+  .bildhinweis strong { color: var(--pergament); font-weight: 500; }
+
   /* ------------------------------------------------------------ TEILER */
 
   .teiler {
@@ -402,17 +431,23 @@
 
   /* -------------------------------------------------------- BILDBAENDER */
 
+  /* ALLE BAENDER HABEN DIESELBE FORM.
+     Vorher stand align-items auf center, und weil die Bilder hochkant sind
+     (das Spiel ist 1080x1920), war die eine Spalte doppelt so hoch wie die
+     andere. Das riss Loecher. Jetzt oben buendig, feste Bildspalte, und die
+     Bilder selbst sind auf 4:5 zugeschnitten statt 9:16. */
   .band {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 32px;
-    align-items: center;
+    gap: 30px;
+    align-items: start;
   }
   @media (min-width: 860px) {
-    .band { grid-template-columns: 340px 1fr; gap: 48px; }
-    .band.gedreht { grid-template-columns: 1fr 340px; }
+    .band { grid-template-columns: 380px 1fr; gap: 52px; }
+    .band.gedreht { grid-template-columns: 1fr 380px; }
     .band.gedreht .bild { order: 2; }
   }
+  .band > div > .marke:first-child { margin-block: 0; }
 
   .bild {
     margin: 0;
@@ -423,24 +458,6 @@
   }
   .bild img,
   .bild video { width: 100%; height: auto; display: block; }
-  /* Das Vogelbild ist hochkant wie das Spiel. Ueber die ganze Breite waere
-     es eine Wand; also steht es in einer eigenen Spalte neben seiner
-     Bildunterschrift, sobald Platz da ist. */
-  .bild-breit {
-    margin-block: 48px 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    max-width: 340px;
-  }
-  @media (min-width: 860px) {
-    .bild-breit {
-      max-width: none;
-      grid-template-columns: 340px 1fr;
-      align-items: end;
-    }
-    .bild-breit figcaption { align-self: center; background: transparent; font-size: 16px; padding: 0 0 0 28px; }
-  }
-
   .bild figcaption {
     line-height: 1.5;
     padding: 10px 14px;
@@ -564,13 +581,22 @@
       <p class="kleingedruckt">Runs in your browser, no download. Free.</p>
 
       <ul class="kanaele">
-        <li><a href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">itch.io</a></li>
-        <li><a href="https://www.instagram.com/glowing.life.game/" target="_blank" rel="noopener">Instagram</a></li>
-        <li><a href="https://www.tiktok.com/@glowing.life79" target="_blank" rel="noopener">TikTok</a></li>
-        <li><a href="https://www.youtube.com/channel/UCgQvjk4SI_eo9t92er8Rphg" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.6 4.6h12.8l2.4 3.8v2c0 1.3-1.7 1.7-2.5.7-.8 1-2.2 1-3 0-.8 1-2.2 1-3 0-.8 1-2.2 1-3 0-.8 1-2.5.6-2.5-.7v-2z"/><path d="M5 11.2V19h14v-7.8"/><path d="M9.9 19v-3.8h4.2V19"/></svg>
+          <span>itch.io</span></a></li>
+        <li><a href="https://www.instagram.com/glowing.life.game/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none"/></svg>
+          <span>Instagram</span></a></li>
+        <li><a href="https://www.tiktok.com/@glowing.life79" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.3 3.3v10.5a3.9 3.9 0 1 1-3.4-3.87"/><path d="M14.3 3.3c.35 2.45 1.9 4 4.35 4.3"/></svg>
+          <span>TikTok</span></a></li>
+        <li><a href="https://www.youtube.com/channel/UCgQvjk4SI_eo9t92er8Rphg" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.2" y="5.3" width="19.6" height="13.4" rx="4.4"/><path d="M10.3 9.2 15.7 12l-5.4 2.8z" fill="currentColor" stroke="none"/></svg>
+          <span>YouTube</span></a></li>
       </ul>
     </div>
 
+    <div class="bildspalte">
     <div class="erwecken" id="erwecken" data-richtung="wecken">
       <img class="bild-wach" id="bildWach" src="img/wach.jpg" alt="The same clearing awake: green grass, blossoming trees in pink and orange, fireflies over the water">
       <img class="bild-schlafend" id="bildSchlafend" src="img/schlafend.jpg" alt="A forest clearing at night, dark and asleep in the rain">
@@ -583,6 +609,12 @@
 
       <p class="wink" id="wink">Move your light</p>
     </div>
+
+    <p class="bildhinweis">
+      Move your cursor across the picture. The forest comes back wherever your
+      light falls, and <strong>Fade</strong> runs it the other way.
+    </p>
+  </div>
   </header>
 
   <hr class="teiler">
@@ -621,6 +653,7 @@
       <figure class="bild">
         <video src="img/levelbuch.mp4" poster="img/levelbuch_still.jpg"
                autoplay loop muted playsinline preload="metadata"
+               disablepictureinpicture disableremoteplayback
                aria-label="A book on the forest floor, its pages turning to show the places you can go"></video>
         <figcaption>You do not pick a level from a menu. You turn the pages of a book, and each one holds a place.</figcaption>
       </figure>
@@ -629,19 +662,40 @@
         <h2>Somewhere, something is waiting to live again.</h2>
         <p class="fliess">Each one asks for a different thing:</p>
         <ol class="orte">
-          <li><span>Wake the ancestral tree<em>The swamp and the first thing that answers you</em></span></li>
+          <li><span>Wake the ancestral tree<em>It has stood in the swamp so long that the water forgot it</em></span></li>
           <li><span>Join the broken crossing<em>Two shores and nothing between them</em></span></li>
-          <li><span>Earn a deer's trust<em>It will not come to you. You have to be worth coming to</em></span></li>
-          <li><span>Bring the fox cubs home<em>They scattered. The den is still warm</em></span></li>
-          <li><span>Wake the waterfall<em>The loudest thing in the world, gone quiet</em> <b class="spaeter">Not in the demo yet</b></span></li>
+          <li><span>Earn a deer's trust<em>It keeps its distance and watches what you do</em></span></li>
+          <li><span>Bring the fox cubs home<em>Their mother is out searching and she will not find them alone</em></span></li>
+          <li><span>Wake the waterfall<em>The rock face is dry and the pool below it is still</em> <b class="spaeter">Not in the demo yet</b></span></li>
         </ol>
       </div>
     </div>
+  </section>
 
-    <figure class="bild bild-breit">
-      <img src="img/voegel.jpg" alt="Colourful birds sitting on a low branch over a glowing pond">
-      <figcaption>And when a place wakes, the birds arrive. They land, hop aside when you walk through them and some will sit on your head.</figcaption>
-    </figure>
+  <hr class="teiler">
+
+  <section>
+    <div class="band">
+      <figure class="bild">
+        <img src="img/voegel.jpg" alt="A pink bird and a yellow bird sitting close together on a branch above a glowing pond">
+        <figcaption>Fourteen different plumages, and every bird a slightly different size.</figcaption>
+      </figure>
+      <div>
+        <p class="marke">What comes back</p>
+        <h2>Finish a place and the birds arrive.</h2>
+        <p class="fliess">
+          They fly in, pick a spot and land on it: a rock, a branch, the grass
+          beside you. Then they stay. They shake themselves out, scratch, peck
+          at the ground and look over at you.
+        </p>
+        <p class="fliess">
+          <strong>Walk into them and they do not scatter. They make room.</strong>
+          A hop to the side, a few quick steps, or a short low arc to a spot
+          two meters over, and then they settle again. And if you stand still
+          long enough, one of them will land on your head.
+        </p>
+      </div>
+    </div>
   </section>
 
   <hr class="teiler">
