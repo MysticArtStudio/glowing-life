@@ -152,6 +152,31 @@
     color: var(--gedaempft);
   }
 
+  /* DIE VIER KANAELE, GLEICH OBEN.
+     Eine Zeile, direkt unter dem Spielknopf, damit sie nicht erst am
+     Seitenende auftauchen. Bewusst leise gesetzt: sie sollen erreichbar
+     sein, nicht mit dem Spielknopf um Aufmerksamkeit ringen. */
+  .kanaele {
+    list-style: none;
+    margin-block: 26px 0;
+    padding-block: 14px 0;
+    padding-inline: 0;
+    border-top: 1px solid var(--kante);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    max-width: 46ch;
+  }
+  .kanaele a {
+    color: var(--gedaempft);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+  }
+  .kanaele a:hover { color: var(--glut); border-bottom-color: var(--glut); }
+
   /* ------------------------------------------------- DAS LICHT IM WALD */
 
   .erwecken {
@@ -396,7 +421,26 @@
     border: 1px solid var(--kante);
     line-height: 0;
   }
-  .bild img { width: 100%; height: auto; display: block; }
+  .bild img,
+  .bild video { width: 100%; height: auto; display: block; }
+  /* Das Vogelbild ist hochkant wie das Spiel. Ueber die ganze Breite waere
+     es eine Wand; also steht es in einer eigenen Spalte neben seiner
+     Bildunterschrift, sobald Platz da ist. */
+  .bild-breit {
+    margin-block: 48px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 340px;
+  }
+  @media (min-width: 860px) {
+    .bild-breit {
+      max-width: none;
+      grid-template-columns: 340px 1fr;
+      align-items: end;
+    }
+    .bild-breit figcaption { align-self: center; background: transparent; font-size: 16px; padding: 0 0 0 28px; }
+  }
+
   .bild figcaption {
     line-height: 1.5;
     padding: 10px 14px;
@@ -518,6 +562,13 @@
         <a class="knopf knopf-leer" href="#the-grove">What you are building</a>
       </div>
       <p class="kleingedruckt">Runs in your browser, no download. Free.</p>
+
+      <ul class="kanaele">
+        <li><a href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">itch.io</a></li>
+        <li><a href="https://www.instagram.com/glowing.life.game/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.tiktok.com/@glowing.life79" target="_blank" rel="noopener">TikTok</a></li>
+        <li><a href="https://www.youtube.com/channel/UCgQvjk4SI_eo9t92er8Rphg" target="_blank" rel="noopener">YouTube</a></li>
+      </ul>
     </div>
 
     <div class="erwecken" id="erwecken" data-richtung="wecken">
@@ -568,8 +619,10 @@
   <section>
     <div class="band">
       <figure class="bild">
-        <img src="img/voegel.jpg" alt="Colourful birds sitting on a low branch over a glowing pond">
-        <figcaption>When a place wakes, the birds arrive. They land, hop aside when you walk through them and some will sit on your head.</figcaption>
+        <video src="img/levelbuch.mp4" poster="img/levelbuch_still.jpg"
+               autoplay loop muted playsinline preload="metadata"
+               aria-label="A book on the forest floor, its pages turning to show the places you can go"></video>
+        <figcaption>You do not pick a level from a menu. You turn the pages of a book, and each one holds a place.</figcaption>
       </figure>
       <div>
         <p class="marke">Five places so far</p>
@@ -584,6 +637,11 @@
         </ol>
       </div>
     </div>
+
+    <figure class="bild bild-breit">
+      <img src="img/voegel.jpg" alt="Colourful birds sitting on a low branch over a glowing pond">
+      <figcaption>And when a place wakes, the birds arrive. They land, hop aside when you walk through them and some will sit on your head.</figcaption>
+    </figure>
   </section>
 
   <hr class="teiler">
@@ -650,11 +708,11 @@
         ones that broke first.
       </p>
 
+      <div class="knopfreihe">
+        <a class="knopf knopf-voll" href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">Play the demo</a>
+      </div>
+
       <ul class="wege">
-        <li>
-          <a href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">itch.io</a>
-          <em>Play the demo, free, in your browser</em>
-        </li>
         <li>
           <a href="https://www.instagram.com/glowing.life.game/" target="_blank" rel="noopener">Instagram</a>
           <em>Screenshots and the odd small win</em>
