@@ -479,8 +479,12 @@
     gap: 30px;
   }
   @media (min-width: 760px) {
-    .stimmen { grid-template-columns: repeat(2, 1fr); gap: 44px; }
+    .stimmen { grid-template-columns: repeat(2, 1fr); gap: 40px 44px; }
   }
+  /* Vier Zitate unterschiedlicher Laenge: die erste Zeile soll nicht
+     auseinanderlaufen, nur weil ein Satz doppelt so lang ist wie der
+     andere. Also jedes Zitat oben buendig in seiner Zelle. */
+  .stimmen li { align-self: start; }
   .stimmen li {
     border-left: 2px solid var(--glut-tief);
     padding-left: 18px;
@@ -501,6 +505,9 @@
     color: var(--glut);
   }
   .stimmen cite span { color: var(--gedaempft); letter-spacing: 0; }
+  /* Bei den Reddit-Zitaten gibt es keinen Namen. Dann faellt die Luecke weg,
+     statt dass die Herkunft eingerueckt dasteht. */
+  .stimmen cite:empty { display: none; }
 
   /* ------------------------------------------------------------- MACHER */
 
@@ -766,12 +773,20 @@
     <p class="marke">What people say</p>
     <ul class="stimmen">
       <li>
-        <blockquote>I love it! The graphic, sfx are calming.</blockquote>
-        <cite>littlehaven1 <span>on itch.io</span></cite>
+        <blockquote>I love the way the background looks, it&rsquo;s so varied and detailed and colourful, it feels so alive and I really want to play your game!</blockquote>
+        <cite><span>on Reddit</span></cite>
       </li>
       <li>
         <blockquote>Very nice game, the visuals are great! Hope the developer keep working on it. Made me calm.</blockquote>
         <cite>LinusWestling4 <span>on itch.io</span></cite>
+      </li>
+      <li>
+        <blockquote>I do absolutely love the vibe! It feels peaceful.</blockquote>
+        <cite><span>on Reddit</span></cite>
+      </li>
+      <li>
+        <blockquote>I love it! The graphic, sfx are calming.</blockquote>
+        <cite>littlehaven1 <span>on itch.io</span></cite>
       </li>
     </ul>
   </section>
