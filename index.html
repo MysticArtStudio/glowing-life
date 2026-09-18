@@ -1,0 +1,695 @@
+<title>Glowing Life</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Alegreya+Sans:wght@400;500;700&display=swap">
+
+<style>
+  /* ------------------------------------------------------------------
+     Eine Nachtseite, mit Absicht.
+     Das Spiel handelt von einer erloschenen Welt, die aufleuchtet. Eine
+     helle Fassung gibt es deshalb nicht: der dunkle Grund ist die Aussage.
+     Alle Farben stehen trotzdem ausdruecklich hier, damit die Seite auf
+     jedem Untergrund haelt.
+     Die Farben sind aus den Screenshots des Spiels genommen.
+     ------------------------------------------------------------------ */
+  :root {
+    --nacht:      #0b1210;   /* Waldboden vor dem Erwachen */
+    --moos:       #141f1a;   /* angehobene Flaechen */
+    --moos-hell:  #1b2a23;
+    --kante:      #263a31;
+    --glut:       #f2b33d;   /* das Glühwürmchen-Amber, DER Akzent */
+    --glut-tief:  #c98a22;
+    --wasser:     #5fd6e0;   /* das Cyan der Figur */
+    --bluete:     #e58fc0;   /* das Rosa der Blueten, genau einmal */
+    --pergament:  #ede4ce;   /* die Schriftfarbe aus dem Spiel */
+    --gedaempft:  #94a29a;
+
+    --schrift-anzeige: "Almendra", "Iowan Old Style", Georgia, serif;
+    --schrift-text: "Alegreya Sans", "Avenir Next", "Segoe UI", sans-serif;
+
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--nacht);
+    color: var(--pergament);
+    font-family: var(--schrift-text);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .huelle {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding-inline: 20px;
+  }
+
+  .spalte { max-width: 60ch; }
+
+  h1, h2, h3 {
+    font-family: var(--schrift-anzeige);
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+    line-height: 1.15;
+  }
+
+  a { color: var(--glut); }
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--wasser);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .marke {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gedaempft);
+    font-weight: 500;
+  }
+
+  /* ---------------------------------------------------------------- KOPF */
+
+  .kopf {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-block: 56px 72px;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .kopf {
+      grid-template-columns: 1fr 420px;
+      gap: 64px;
+      padding-block: 88px 104px;
+    }
+  }
+
+  .kopf h1 {
+    font-size: clamp(52px, 11vw, 84px);
+    letter-spacing: 0.01em;
+    margin-block: 14px 0;
+  }
+
+  .these {
+    font-family: var(--schrift-anzeige);
+    font-size: clamp(21px, 3.4vw, 27px);
+    line-height: 1.35;
+    color: var(--glut);
+    margin-block: 22px 0;
+    max-width: 22ch;
+  }
+
+  .vorspann {
+    margin-block: 24px 0;
+    color: var(--gedaempft);
+    max-width: 46ch;
+  }
+  .vorspann strong { color: var(--pergament); font-weight: 500; }
+
+  .knopfreihe {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-block: 32px 0;
+  }
+
+  .knopf {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-family: var(--schrift-text);
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .knopf:hover { transform: translateY(-1px); }
+
+  .knopf-voll {
+    background: var(--glut);
+    color: #21160a;
+    box-shadow: 0 0 34px rgba(242, 179, 61, 0.22);
+  }
+  .knopf-voll:hover { background: #ffc85a; }
+
+  .knopf-leer {
+    border: 1px solid var(--kante);
+    color: var(--pergament);
+  }
+  .knopf-leer:hover { border-color: var(--wasser); color: var(--wasser); }
+
+  .kleingedruckt {
+    margin-block: 14px 0;
+    font-size: 14px;
+    color: var(--gedaempft);
+  }
+
+  /* ------------------------------------------------- DAS LICHT IM WALD */
+
+  .erwecken {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    max-width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--kante);
+    cursor: crosshair;
+    touch-action: pan-y;
+    background: var(--nacht);
+  }
+
+  .erwecken img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  /* Die schlafende Fassung liegt OBEN und bekommt ein Loch. Was darunter
+     zum Vorschein kommt, ist dieselbe Stelle, nachdem man dort war. */
+  .schlaefer {
+    -webkit-mask-image: radial-gradient(circle var(--radius) at var(--x) var(--y),
+                        transparent 0%, transparent 38%, #000 100%);
+    mask-image: radial-gradient(circle var(--radius) at var(--x) var(--y),
+                transparent 0%, transparent 38%, #000 100%);
+  }
+
+  .schein {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    background: radial-gradient(circle 120px at var(--x) var(--y),
+                rgba(242, 179, 61, 0.30) 0%,
+                rgba(242, 179, 61, 0.10) 40%,
+                rgba(242, 179, 61, 0) 72%);
+  }
+
+  .wink {
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(11, 18, 16, 0.78);
+    border: 1px solid var(--kante);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gedaempft);
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .wink[data-weg="ja"] { opacity: 0; }
+
+  /* ------------------------------------------------------------ TEILER */
+
+  .teiler {
+    height: 1px;
+    border: 0;
+    margin: 0;
+    background: linear-gradient(to right,
+                transparent, var(--kante) 12%, var(--kante) 88%, transparent);
+  }
+
+  /* ---------------------------------------------------------- ABSCHNITT */
+
+  section { padding-block: 64px; }
+
+  section h2 {
+    font-size: clamp(28px, 5vw, 38px);
+    margin-block: 10px 0;
+  }
+
+  .fliess { margin-block: 20px 0; color: var(--gedaempft); }
+  .fliess strong { color: var(--pergament); font-weight: 500; }
+
+  /* Die drei Zusagen. Bewusst keine Karten: es sind drei Saetze, keine
+     drei Objekte. Der senkrechte Strich links haelt sie zusammen. */
+  .zusagen {
+    list-style: none;
+    margin-block: 32px 0;
+    padding: 0;
+    display: grid;
+    gap: 22px;
+  }
+  @media (min-width: 760px) {
+    .zusagen { grid-template-columns: repeat(3, 1fr); gap: 34px; }
+  }
+  .zusagen li {
+    border-left: 2px solid var(--glut-tief);
+    padding-left: 16px;
+  }
+  .zusagen b {
+    display: block;
+    font-family: var(--schrift-anzeige);
+    font-size: 21px;
+    font-weight: 400;
+    color: var(--pergament);
+    margin-bottom: 4px;
+  }
+  .zusagen span { color: var(--gedaempft); font-size: 16px; }
+
+  /* Die fuenf Orte sind wirklich eine Reihenfolge, deshalb Ziffern. */
+  .orte {
+    list-style: none;
+    counter-reset: ort;
+    margin-block: 32px 0;
+    padding: 0;
+    max-width: 52ch;
+  }
+  .orte li {
+    counter-increment: ort;
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 16px;
+    align-items: baseline;
+    padding-block: 13px;
+    border-top: 1px solid var(--kante);
+  }
+  .orte li:last-child { border-bottom: 1px solid var(--kante); }
+  .orte li::before {
+    content: counter(ort);
+    font-family: var(--schrift-anzeige);
+    font-size: 19px;
+    color: var(--glut-tief);
+    font-variant-numeric: tabular-nums;
+  }
+  .orte em {
+    font-style: normal;
+    color: var(--gedaempft);
+    font-size: 15px;
+    display: block;
+  }
+
+  /* -------------------------------------------------------- BILDBAENDER */
+
+  .band {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (min-width: 860px) {
+    .band { grid-template-columns: 340px 1fr; gap: 48px; }
+    .band.gedreht { grid-template-columns: 1fr 340px; }
+    .band.gedreht .bild { order: 2; }
+  }
+
+  .bild {
+    margin: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--kante);
+    line-height: 0;
+  }
+  .bild img { width: 100%; height: auto; display: block; }
+  .bild figcaption {
+    line-height: 1.5;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--gedaempft);
+    background: var(--moos);
+  }
+
+  /* ------------------------------------------------------------- MACHER */
+
+  .macher {
+    background: var(--moos);
+    border: 1px solid var(--kante);
+    border-radius: 6px;
+    padding: 30px 26px;
+    margin-block: 30px 0;
+    max-width: 60ch;
+  }
+  .macher p { margin-block: 0 0; }
+  .macher p + p { margin-block: 16px 0; }
+  .musik { color: var(--bluete); font-family: var(--schrift-anzeige); font-size: 20px; }
+
+  /* Die vier Wege nach draussen. Keine Kacheln: es ist eine Liste, und der
+     Name traegt sie, nicht ein Kasten drumherum. */
+  .wege {
+    list-style: none;
+    margin-block: 30px 0;
+    padding: 0;
+    display: grid;
+    gap: 2px;
+    max-width: 52ch;
+  }
+  .wege li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 16px;
+    padding-block: 12px;
+    border-bottom: 1px solid var(--kante);
+  }
+  .wege li:first-child { border-top: 1px solid var(--kante); }
+  .wege a {
+    font-family: var(--schrift-anzeige);
+    font-size: 21px;
+    text-decoration: none;
+    min-width: 6.5em;
+  }
+  .wege a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .wege em {
+    font-style: normal;
+    color: var(--gedaempft);
+    font-size: 15px;
+  }
+
+  /* ------------------------------------------------------------- ABZEICHEN */
+
+  .abzeichen {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+    margin-block: 28px 0;
+  }
+  .abzeichen img { display: block; border-radius: 4px; }
+  .ersatz {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 18px;
+    border: 1px solid var(--kante);
+    border-radius: 6px;
+    background: var(--moos);
+    color: var(--pergament);
+    text-decoration: none;
+    font-size: 15px;
+  }
+  .ersatz b { font-weight: 500; }
+  .ersatz span { color: var(--gedaempft); font-size: 13px; }
+
+  /* --------------------------------------------------------------- FUSS */
+
+  footer {
+    border-top: 1px solid var(--kante);
+    padding-block: 34px 56px;
+    color: var(--gedaempft);
+    font-size: 15px;
+  }
+  .fusszeilen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .fusslinks { display: flex; flex-wrap: wrap; gap: 20px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="huelle">
+
+  <header class="kopf">
+    <div>
+      <p class="marke">In development &middot; Playable in your browser</p>
+      <h1>Glowing Life</h1>
+      <p class="these">You are not just exploring this world. You are waking it.</p>
+      <p class="vorspann">
+        A cozy game about a small light being in a world that has gone out.
+        Wherever you go, life comes back: the grass turns green, dead trees
+        blossom, fireflies gather, and the creatures come out to meet you.
+        <strong>No timers, no enemies, nothing to fail.</strong>
+      </p>
+      <div class="knopfreihe">
+        <a class="knopf knopf-voll" href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">Play the demo</a>
+        <a class="knopf knopf-leer" href="#the-grove">What you are building</a>
+      </div>
+      <p class="kleingedruckt">Runs in your browser, no download. Free.</p>
+    </div>
+
+    <div class="erwecken" id="erwecken">
+      <img src="img/wach.jpg" alt="The same clearing awake: green grass, blossoming trees in pink and orange, fireflies over the water">
+      <img class="schlaefer" id="schlaefer" src="img/schlafend.jpg" alt="A forest clearing at night, dark and asleep in the rain">
+      <div class="schein" id="schein"></div>
+      <p class="wink" id="wink">Move your light</p>
+    </div>
+  </header>
+
+  <hr class="teiler">
+
+  <section>
+    <div class="spalte">
+      <p class="marke">How it plays</p>
+      <h2>Hold to move. That is the whole control scheme.</h2>
+      <p class="fliess">
+        Hold the mouse or your finger and the light being glides after it.
+        WASD works too. There is nothing else to learn, and nothing you can
+        get wrong. The world is what responds, not a score.
+      </p>
+    </div>
+
+    <ul class="zusagen">
+      <li>
+        <b>Nothing runs out</b>
+        <span>No timer, no energy bar, no fail state. Stand still for a while and the fireflies come to you.</span>
+      </li>
+      <li>
+        <b>Short on purpose</b>
+        <span>A few minutes per place. It is made to be picked up in a quiet moment and put down again.</span>
+      </li>
+      <li>
+        <b>Every place wants something else</b>
+        <span>Waking a tree, mending a crossing, earning an animal's trust. The mood stays, the task changes.</span>
+      </li>
+    </ul>
+  </section>
+
+  <hr class="teiler">
+
+  <section>
+    <div class="band">
+      <figure class="bild">
+        <img src="img/voegel.jpg" alt="Colourful birds sitting on a low branch over a glowing pond">
+        <figcaption>When a place wakes, the birds arrive. They land, hop aside when you walk through them, and some will sit on your head.</figcaption>
+      </figure>
+      <div>
+        <p class="marke">Five places so far</p>
+        <h2>Somewhere, something is waiting to live again.</h2>
+        <p class="fliess">
+          Each one asks for a different thing. That is the part people tend to
+          remember, so the list is not a secret:
+        </p>
+        <ol class="orte">
+          <li><span>Wake the ancestral tree<em>The swamp, and the first thing that answers you</em></span></li>
+          <li><span>Join the broken crossing<em>Two shores, and nothing between them</em></span></li>
+          <li><span>Earn a deer's trust<em>It will not come to you. You have to be worth coming to</em></span></li>
+          <li><span>Bring the fox cubs home<em>They scattered. The den is still warm</em></span></li>
+          <li><span>Wake the waterfall<em>The loudest thing in the world, gone quiet</em></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <hr class="teiler">
+
+  <section id="the-grove">
+    <div class="band gedreht">
+      <figure class="bild">
+        <img src="img/hirsch.jpg" alt="A glowing translucent deer standing at the edge of a pond in the grove">
+        <figcaption>The deer settles by the pond once you have earned its trust, and brings its own patch of meadow with it.</figcaption>
+      </figure>
+      <div>
+        <p class="marke">The grove</p>
+        <h2>You are not picking levels. You are building a home.</h2>
+        <p class="fliess">
+          The grove starts almost empty. Dark grass, still water, a book, and
+          not much else. Then you finish a place, and something comes home
+          with you: a tree, a landmark, a creature you woke.
+          <strong>Each one carries a piece of its own habitat along</strong>,
+          so the ground around it changes too and the grove closes in a
+          little.
+        </p>
+        <p class="fliess">
+          You never place any of it yourself. You just keep coming back, and
+          every time there is more waiting for you than when you left.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="teiler">
+
+  <section>
+    <div class="spalte">
+      <p class="marke">Who makes this</p>
+      <h2>One person, and a composer.</h2>
+      <div class="macher">
+        <p>
+          I build Glowing Life on my own in Unity: the forest, the creatures,
+          the glow, the small light being in the middle of it. I post the
+          steps that finally worked and the ones that broke first.
+        </p>
+        <p>
+          The music is by <span class="musik">K&aelig;reste</span>, and it is
+          the part I am least able to be modest about. The grove has its own
+          piece now, and it changes what the place feels like far more than
+          anything I added to it.
+        </p>
+      </div>
+      <p class="fliess">
+        Five places and the grove are playable today. The plan is around
+        twenty, and then Steam. It will take as long as it takes.
+      </p>
+    </div>
+  </section>
+
+  <hr class="teiler">
+
+  <section>
+    <div class="spalte">
+      <p class="marke">Where to find it</p>
+      <h2>Come along, or just come and play.</h2>
+      <p class="fliess">
+        The demo lives on itch and runs in your browser. Everything else is
+        where I post the small steps: the things that finally worked, and the
+        ones that broke first.
+      </p>
+
+      <ul class="wege">
+        <li>
+          <a href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">itch.io</a>
+          <em>Play the demo, free, in your browser</em>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/glowing.life.game/" target="_blank" rel="noopener">Instagram</a>
+          <em>Screenshots and the odd small win</em>
+        </li>
+        <li>
+          <a href="https://www.tiktok.com/@glowing.life79" target="_blank" rel="noopener">TikTok</a>
+          <em>Single moments, a few seconds each</em>
+        </li>
+        <li>
+          <a href="https://www.youtube.com/channel/UCgQvjk4SI_eo9t92er8Rphg" target="_blank" rel="noopener">YouTube</a>
+          <em>Longer looks at how it is coming together</em>
+        </li>
+      </ul>
+
+      <p class="fliess">It is also curated on PixelPicked, alongside other small games worth a look.</p>
+
+      <div class="abzeichen">
+        <a href="https://pixelpicked.com/game/3ZT9R1RxV7F/glowing-life/" target="_blank" rel="noopener">
+          <img id="ppBadge" src="https://api.pixelpicked.com/api/badges/3ZT9R1RxV7F/live.png?theme=dark" width="250" height="54" alt="Approved on PixelPicked">
+        </a>
+        <a class="ersatz" id="ppErsatz" hidden href="https://pixelpicked.com/game/3ZT9R1RxV7F/glowing-life/" target="_blank" rel="noopener">
+          <b>Glowing Life on PixelPicked</b>
+          <span>Curated game</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="fusszeilen">
+      <span>Glowing Life &middot; a cozy game about waking a sleeping world</span>
+      <span class="fusslinks">
+        <a href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">itch.io</a>
+        <a href="https://www.instagram.com/glowing.life.game/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@glowing.life79" target="_blank" rel="noopener">TikTok</a>
+        <a href="https://www.youtube.com/channel/UCgQvjk4SI_eo9t92er8Rphg" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://pixelpicked.com/game/3ZT9R1RxV7F/glowing-life/" target="_blank" rel="noopener">PixelPicked</a>
+      </span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var feld = document.getElementById("erwecken");
+    var schlaefer = document.getElementById("schlaefer");
+    var schein = document.getElementById("schein");
+    var wink = document.getElementById("wink");
+    if (!feld) return;
+
+    var ruhig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Wo das Licht gerade steht (0 bis 1), und wohin es will.
+    var jetztX = 0.5, jetztY = 0.58;
+    var zielX = 0.5, zielY = 0.58;
+    var zeigerBis = 0;   // bis wann der Zeiger das Kommando hat
+    var uhr = 0;
+
+    function malen() {
+      var b = feld.clientWidth, h = feld.clientHeight;
+      // Der Radius waechst mit dem Bild mit, sonst ist das Loch auf dem
+      // Handy fast so gross wie die ganze Lichtung.
+      var r = Math.max(84, Math.min(b, h) * 0.30);
+      var x = (jetztX * b).toFixed(1) + "px";
+      var y = (jetztY * h).toFixed(1) + "px";
+      schlaefer.style.setProperty("--x", x);
+      schlaefer.style.setProperty("--y", y);
+      schlaefer.style.setProperty("--radius", r.toFixed(0) + "px");
+      schein.style.setProperty("--x", x);
+      schein.style.setProperty("--y", y);
+    }
+
+    function takt(t) {
+      uhr = t / 1000;
+
+      if (!ruhig && t > zeigerBis) {
+        // Zwei Sinuskurven mit ungleichen Perioden: der Weg schliesst sich
+        // nie und wirkt deshalb nicht wie eine Schleife.
+        zielX = 0.5 + Math.sin(uhr * 0.23) * 0.26;
+        zielY = 0.55 + Math.sin(uhr * 0.17 + 1.1) * 0.20;
+      }
+
+      jetztX += (zielX - jetztX) * 0.07;
+      jetztY += (zielY - jetztY) * 0.07;
+      malen();
+      requestAnimationFrame(takt);
+    }
+
+    function zeigen(e) {
+      var k = feld.getBoundingClientRect();
+      zielX = Math.min(1, Math.max(0, (e.clientX - k.left) / k.width));
+      zielY = Math.min(1, Math.max(0, (e.clientY - k.top) / k.height));
+      zeigerBis = performance.now() + 2600;
+      if (wink) wink.dataset.weg = "ja";
+    }
+
+    feld.addEventListener("pointermove", zeigen);
+    feld.addEventListener("pointerdown", zeigen);
+    window.addEventListener("resize", malen);
+
+    malen();
+    if (ruhig) { jetztX = zielX; jetztY = zielY; malen(); }
+    requestAnimationFrame(takt);
+
+    // Das PixelPicked-Abzeichen liegt auf deren Server. Kommt es nicht an,
+    // tritt ein eigener Knopf an seine Stelle, damit hier kein kaputtes
+    // Bildsymbol steht.
+    var abz = document.getElementById("ppBadge");
+    var ersatz = document.getElementById("ppErsatz");
+    if (abz && ersatz) {
+      abz.addEventListener("error", function () {
+        abz.parentNode.hidden = true;
+        ersatz.hidden = false;
+      });
+      if (abz.complete && abz.naturalWidth === 0) {
+        abz.parentNode.hidden = true;
+        ersatz.hidden = false;
+      }
+    }
+  })();
+</script>
