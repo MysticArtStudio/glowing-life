@@ -177,24 +177,84 @@
     -webkit-user-drag: none;
   }
 
-  /* Die schlafende Fassung liegt OBEN und bekommt ein Loch. Was darunter
-     zum Vorschein kommt, ist dieselbe Stelle, nachdem man dort war. */
-  .schlaefer {
+  /* WELCHE FASSUNG OBEN LIEGT, ENTSCHEIDET DIE RICHTUNG.
+     Oben liegt immer die, die ein Loch bekommt. Steht das schlafende Bild
+     oben, weckt man; steht das wache oben, loescht man. Es ist dieselbe
+     Maske, nur getauscht. */
+  .erwecken img { z-index: 1; }
+
+  .erwecken[data-richtung="wecken"] .bild-schlafend,
+  .erwecken[data-richtung="loeschen"] .bild-wach {
+    z-index: 2;
     -webkit-mask-image: radial-gradient(circle var(--radius) at var(--x) var(--y),
                         transparent 0%, transparent 38%, #000 100%);
     mask-image: radial-gradient(circle var(--radius) at var(--x) var(--y),
                 transparent 0%, transparent 38%, #000 100%);
   }
 
+  /* Der Schein gehoert zur Richtung: beim Wecken ein warmes Glimmen, das
+     sich dazulegt, beim Loeschen ein kuehler Schatten, der wegnimmt. Ein
+     warmer Fleck ueber einer erloeschenden Stelle waere falsch herum. */
   .schein {
     position: absolute;
     inset: 0;
+    z-index: 3;
     pointer-events: none;
     mix-blend-mode: screen;
     background: radial-gradient(circle 120px at var(--x) var(--y),
                 rgba(242, 179, 61, 0.30) 0%,
                 rgba(242, 179, 61, 0.10) 40%,
                 rgba(242, 179, 61, 0) 72%);
+  }
+
+  .erwecken[data-richtung="loeschen"] .schein {
+    mix-blend-mode: multiply;
+    background: radial-gradient(circle 150px at var(--x) var(--y),
+                rgba(24, 40, 58, 0.72) 0%,
+                rgba(24, 40, 58, 0.34) 45%,
+                rgba(24, 40, 58, 0) 78%);
+  }
+
+  /* --------------------------------------------------- RICHTUNGSSCHALTER */
+
+  .richtung {
+    position: absolute;
+    z-index: 4;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    padding: 3px;
+    gap: 3px;
+    border-radius: 999px;
+    background: rgba(11, 18, 16, 0.76);
+    border: 1px solid var(--kante);
+    backdrop-filter: blur(6px);
+  }
+
+  .richtung button {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    padding: 5px 13px;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--gedaempft);
+    font-family: var(--schrift-text);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .richtung button:hover { color: var(--pergament); }
+
+  .richtung button[aria-pressed="true"] {
+    background: var(--glut);
+    color: #21160a;
+  }
+  .erwecken[data-richtung="loeschen"] .richtung button[aria-pressed="true"] {
+    background: var(--wasser);
+    color: #0a1b1f;
   }
 
   .wink {
@@ -454,10 +514,16 @@
       <p class="kleingedruckt">Runs in your browser, no download. Free.</p>
     </div>
 
-    <div class="erwecken" id="erwecken">
-      <img src="img/wach.jpg" alt="The same clearing awake: green grass, blossoming trees in pink and orange, fireflies over the water">
-      <img class="schlaefer" id="schlaefer" src="img/schlafend.jpg" alt="A forest clearing at night, dark and asleep in the rain">
+    <div class="erwecken" id="erwecken" data-richtung="wecken">
+      <img class="bild-wach" id="bildWach" src="img/wach.jpg" alt="The same clearing awake: green grass, blossoming trees in pink and orange, fireflies over the water">
+      <img class="bild-schlafend" id="bildSchlafend" src="img/schlafend.jpg" alt="A forest clearing at night, dark and asleep in the rain">
       <div class="schein" id="schein"></div>
+
+      <div class="richtung" role="group" aria-label="Which way the light runs">
+        <button type="button" id="knopfWecken" aria-pressed="true">Wake</button>
+        <button type="button" id="knopfLoeschen" aria-pressed="false">Fade</button>
+      </div>
+
       <p class="wink" id="wink">Move your light</p>
     </div>
   </header>
@@ -470,7 +536,7 @@
       <h2>Hold to move. That is the whole control scheme.</h2>
       <p class="fliess">
         Hold the mouse or your finger and the light being glides after it.
-        WASD works too. There is nothing else to learn, and nothing you can
+        WASD works too. There is nothing else to learn and nothing you can
         get wrong. The world is what responds, not a score.
       </p>
     </div>
@@ -497,15 +563,15 @@
     <div class="band">
       <figure class="bild">
         <img src="img/voegel.jpg" alt="Colourful birds sitting on a low branch over a glowing pond">
-        <figcaption>When a place wakes, the birds arrive. They land, hop aside when you walk through them, and some will sit on your head.</figcaption>
+        <figcaption>When a place wakes, the birds arrive. They land, hop aside when you walk through them and some will sit on your head.</figcaption>
       </figure>
       <div>
         <p class="marke">Five places so far</p>
         <h2>Somewhere, something is waiting to live again.</h2>
         <p class="fliess">Each one asks for a different thing:</p>
         <ol class="orte">
-          <li><span>Wake the ancestral tree<em>The swamp, and the first thing that answers you</em></span></li>
-          <li><span>Join the broken crossing<em>Two shores, and nothing between them</em></span></li>
+          <li><span>Wake the ancestral tree<em>The swamp and the first thing that answers you</em></span></li>
+          <li><span>Join the broken crossing<em>Two shores and nothing between them</em></span></li>
           <li><span>Earn a deer's trust<em>It will not come to you. You have to be worth coming to</em></span></li>
           <li><span>Bring the fox cubs home<em>They scattered. The den is still warm</em></span></li>
           <li><span>Wake the waterfall<em>The loudest thing in the world, gone quiet</em> <b class="spaeter">Not in the demo yet</b></span></li>
@@ -520,20 +586,20 @@
     <div class="band gedreht">
       <figure class="bild">
         <img src="img/hirsch.jpg" alt="A glowing translucent deer standing at the edge of a pond in the grove">
-        <figcaption>The deer settles by the pond once you have earned its trust, and brings its own patch of meadow with it.</figcaption>
+        <figcaption>The deer settles by the pond once you have earned its trust and brings its own patch of meadow with it.</figcaption>
       </figure>
       <div>
         <p class="marke">The grove</p>
         <h2>You are not picking levels. You are building a home.</h2>
         <p class="fliess">
-          The grove starts almost empty. Dark grass, still water, a book, and
-          not much else. Then you finish a place, and something comes home
+          The grove starts almost empty. Dark grass, still water, a book and
+          not much else. Then you finish a place and something comes home
           with you: a tree, a landmark, a creature you woke.
           <strong>Each one brings a piece of its own habitat home with it.</strong>
-          The ground changes around it, and the grove closes in a little.
+          The ground changes around it and the grove closes in a little.
         </p>
         <p class="fliess">
-          You never place any of it yourself. You just keep coming back, and
+          You never place any of it yourself. You just keep coming back and
           every time there is more waiting for you than when you left.
         </p>
       </div>
@@ -553,15 +619,15 @@
           steps that finally worked and the ones that broke first.
         </p>
         <p>
-          The music is by <span class="musik">K&aelig;reste</span>, and it is
+          The music is by <span class="musik">K&aelig;reste</span> and it is
           the part I am least able to be modest about. The grove has its own
-          piece now, and it changes what the place feels like far more than
+          piece now and it changes what the place feels like far more than
           anything I added to it.
         </p>
       </div>
       <p class="fliess">
         Four places and the grove are playable today. The plan is around
-        twenty, and then Steam. It will take as long as it takes.
+        twenty places, then Steam. It will take as long as it takes.
       </p>
     </div>
   </section>
@@ -574,7 +640,7 @@
       <h2>Come along, or just come and play.</h2>
       <p class="fliess">
         The demo lives on itch and runs in your browser. Everything else is
-        where I post the small steps: the things that finally worked, and the
+        where I post the small steps: the things that finally worked and the
         ones that broke first.
       </p>
 
@@ -628,7 +694,8 @@
 <script>
   (function () {
     var feld = document.getElementById("erwecken");
-    var schlaefer = document.getElementById("schlaefer");
+    var bildWach = document.getElementById("bildWach");
+    var bildSchlafend = document.getElementById("bildSchlafend");
     var schein = document.getElementById("schein");
     var wink = document.getElementById("wink");
     if (!feld) return;
@@ -648,9 +715,15 @@
       var r = Math.max(84, Math.min(b, h) * 0.30);
       var x = (jetztX * b).toFixed(1) + "px";
       var y = (jetztY * h).toFixed(1) + "px";
-      schlaefer.style.setProperty("--x", x);
-      schlaefer.style.setProperty("--y", y);
-      schlaefer.style.setProperty("--radius", r.toFixed(0) + "px");
+
+      // Beide Bilder bekommen die Werte. Welches davon die Maske wirklich
+      // benutzt, entscheidet das CSS ueber data-richtung, und so muss beim
+      // Umschalten nichts nachgezogen werden.
+      [bildWach, bildSchlafend].forEach(function (el) {
+        el.style.setProperty("--x", x);
+        el.style.setProperty("--y", y);
+        el.style.setProperty("--radius", r.toFixed(0) + "px");
+      });
       schein.style.setProperty("--x", x);
       schein.style.setProperty("--y", y);
     }
@@ -672,6 +745,9 @@
     }
 
     function zeigen(e) {
+      // Der Schalter sitzt im Bild. Ohne das springt das Licht beim
+      // Umschalten in die Ecke, in der man gerade geklickt hat.
+      if (e.target && e.target.closest && e.target.closest(".richtung")) return;
       var k = feld.getBoundingClientRect();
       zielX = Math.min(1, Math.max(0, (e.clientX - k.left) / k.width));
       zielY = Math.min(1, Math.max(0, (e.clientY - k.top) / k.height));
@@ -682,6 +758,26 @@
     feld.addEventListener("pointermove", zeigen);
     feld.addEventListener("pointerdown", zeigen);
     window.addEventListener("resize", malen);
+
+    // WECKEN ODER LOESCHEN.
+    //
+    // Es ist dieselbe Maske, nur liegt das andere Bild oben. Der Zeiger
+    // laesst das Licht also entweder herein oder heraus, und der Schein
+    // wechselt von warm auf kuehl mit.
+    var knopfWecken = document.getElementById("knopfWecken");
+    var knopfLoeschen = document.getElementById("knopfLoeschen");
+
+    function richtungSetzen(welche) {
+      feld.dataset.richtung = welche;
+      knopfWecken.setAttribute("aria-pressed", welche === "wecken" ? "true" : "false");
+      knopfLoeschen.setAttribute("aria-pressed", welche === "loeschen" ? "true" : "false");
+      if (wink) wink.textContent = welche === "wecken" ? "Move your light" : "Move the dusk";
+    }
+
+    if (knopfWecken && knopfLoeschen) {
+      knopfWecken.addEventListener("click", function () { richtungSetzen("wecken"); });
+      knopfLoeschen.addEventListener("click", function () { richtungSetzen("loeschen"); });
+    }
 
     malen();
     if (ruhig) { jetztX = zielX; jetztY = zielY; malen(); }
