@@ -161,9 +161,15 @@
     border-radius: 6px;
     overflow: hidden;
     border: 1px solid var(--kante);
-    cursor: crosshair;
     touch-action: pan-y;
     background: var(--nacht);
+
+    /* KEIN ZEIGER UEBER DEM BILD.
+       Der Schein IST der Zeiger, und ein Fadenkreuz daneben macht aus dem
+       Lichtwesen einen Mauspfeil. Das Loch in der Maske und das Glimmen
+       stehen genau unter dem Finger, verlieren kann man sich also nicht.
+       Auf den Schaltflaechen kommt er zurueck, sonst sehen sie tot aus. */
+    cursor: none;
   }
 
   .erwecken img {
@@ -665,10 +671,10 @@
 
       <p class="marke marke-klein">Also featured on</p>
       <div class="abzeichen">
-        <a href="https://pixelpicked.com/game/3ZT9R1RxV7F/glowing-life/" target="_blank" rel="noopener">
-          <img id="ppBadge" src="https://api.pixelpicked.com/api/badges/3ZT9R1RxV7F/live.png?theme=dark" width="250" height="54" alt="Approved on PixelPicked">
+        <a href="https://pixelpicked.com/game/3ZT9RlRxV7F/glowing-life/" target="_blank" rel="noopener">
+          <img id="ppBadge" src="https://api.pixelpicked.com/api/badges/3ZT9RlRxV7F/live.png?theme=dark" width="250" height="54" alt="Approved on PixelPicked">
         </a>
-        <a class="ersatz" id="ppErsatz" hidden href="https://pixelpicked.com/game/3ZT9R1RxV7F/glowing-life/" target="_blank" rel="noopener">
+        <a class="ersatz" id="ppErsatz" hidden href="https://pixelpicked.com/game/3ZT9RlRxV7F/glowing-life/" target="_blank" rel="noopener">
           <b>Glowing Life on PixelPicked</b>
           <span>Curated game</span>
         </a>
@@ -684,7 +690,7 @@
         <a href="https://www.instagram.com/glowing.life.game/" target="_blank" rel="noopener">Instagram</a>
         <a href="https://www.tiktok.com/@glowing.life79" target="_blank" rel="noopener">TikTok</a>
         <a href="https://www.youtube.com/channel/UCgQvjk4SI_eo9t92er8Rphg" target="_blank" rel="noopener">YouTube</a>
-        <a href="https://pixelpicked.com/game/3ZT9R1RxV7F/glowing-life/" target="_blank" rel="noopener">PixelPicked</a>
+        <a href="https://pixelpicked.com/game/3ZT9RlRxV7F/glowing-life/" target="_blank" rel="noopener">PixelPicked</a>
       </span>
     </div>
   </footer>
