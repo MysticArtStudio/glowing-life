@@ -294,6 +294,20 @@
     font-size: 15px;
     display: block;
   }
+  /* Der Wasserfall ist gebaut, steht aber noch nicht im Build. Das gehoert
+     an den Eintrag selbst, nicht in eine Fussnote. */
+  .spaeter {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 2px 9px;
+    border: 1px solid var(--kante);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gedaempft);
+  }
 
   /* -------------------------------------------------------- BILDBAENDER */
 
@@ -373,12 +387,14 @@
 
   /* ------------------------------------------------------------- ABZEICHEN */
 
+  .marke-klein { margin-block: 38px 0; }
+
   .abzeichen {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 18px;
-    margin-block: 28px 0;
+    margin-block: 12px 0;
   }
   .abzeichen img { display: block; border-radius: 4px; }
   .ersatz {
@@ -427,8 +443,8 @@
       <p class="these">You are not just exploring this world. You are waking it.</p>
       <p class="vorspann">
         A cozy game about a small light being in a world that has gone out.
-        Wherever you go, life comes back: the grass turns green, dead trees
-        blossom, fireflies gather, and the creatures come out to meet you.
+        Wherever you go, life comes back: grass turns green, dead trees
+        blossom, fireflies gather and creatures come out to meet you.
         <strong>No timers, no enemies, nothing to fail.</strong>
       </p>
       <div class="knopfreihe">
@@ -486,16 +502,13 @@
       <div>
         <p class="marke">Five places so far</p>
         <h2>Somewhere, something is waiting to live again.</h2>
-        <p class="fliess">
-          Each one asks for a different thing. That is the part people tend to
-          remember, so the list is not a secret:
-        </p>
+        <p class="fliess">Each one asks for a different thing:</p>
         <ol class="orte">
           <li><span>Wake the ancestral tree<em>The swamp, and the first thing that answers you</em></span></li>
           <li><span>Join the broken crossing<em>Two shores, and nothing between them</em></span></li>
           <li><span>Earn a deer's trust<em>It will not come to you. You have to be worth coming to</em></span></li>
           <li><span>Bring the fox cubs home<em>They scattered. The den is still warm</em></span></li>
-          <li><span>Wake the waterfall<em>The loudest thing in the world, gone quiet</em></span></li>
+          <li><span>Wake the waterfall<em>The loudest thing in the world, gone quiet</em> <b class="spaeter">Not in the demo yet</b></span></li>
         </ol>
       </div>
     </div>
@@ -516,9 +529,8 @@
           The grove starts almost empty. Dark grass, still water, a book, and
           not much else. Then you finish a place, and something comes home
           with you: a tree, a landmark, a creature you woke.
-          <strong>Each one carries a piece of its own habitat along</strong>,
-          so the ground around it changes too and the grove closes in a
-          little.
+          <strong>Each one brings a piece of its own habitat home with it.</strong>
+          The ground changes around it, and the grove closes in a little.
         </p>
         <p class="fliess">
           You never place any of it yourself. You just keep coming back, and
@@ -533,7 +545,7 @@
   <section>
     <div class="spalte">
       <p class="marke">Who makes this</p>
-      <h2>One person, and a composer.</h2>
+      <h2>Built by one person, with music by K&aelig;reste.</h2>
       <div class="macher">
         <p>
           I build Glowing Life on my own in Unity: the forest, the creatures,
@@ -548,7 +560,7 @@
         </p>
       </div>
       <p class="fliess">
-        Five places and the grove are playable today. The plan is around
+        Four places and the grove are playable today. The plan is around
         twenty, and then Steam. It will take as long as it takes.
       </p>
     </div>
@@ -585,8 +597,7 @@
         </li>
       </ul>
 
-      <p class="fliess">It is also curated on PixelPicked, alongside other small games worth a look.</p>
-
+      <p class="marke marke-klein">Also featured on</p>
       <div class="abzeichen">
         <a href="https://pixelpicked.com/game/3ZT9R1RxV7F/glowing-life/" target="_blank" rel="noopener">
           <img id="ppBadge" src="https://api.pixelpicked.com/api/badges/3ZT9R1RxV7F/live.png?theme=dark" width="250" height="54" alt="Approved on PixelPicked">
