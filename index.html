@@ -1,5 +1,28 @@
+<!doctype html>
+<!-- OHNE DIESE ZEILE LIEF DIE SEITE IM QUIRKS-MODUS (gemessen 29.09.2026:
+     document.compatMode war "BackCompat"). Browser rechnen dann Hoehen,
+     Zeilenabstaende und Bilder nach Regeln von 1999. -->
+<html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- WAS BEIM TEILEN ERSCHEINT. Ohne diese Zeilen zeigen Threads, Reddit,
+     Discord und WhatsApp nur eine nackte Adresse. Die Karte ist das Bildpaar
+     vom Erwachen, links schlafend, rechts wach: genau das Motiv, das auf
+     Threads am besten laeuft. Die Bildadresse muss vollstaendig sein, sonst
+     holen die Dienste sie nicht. -->
+<meta name="description" content="A cozy game about a small light being in a world that has gone out. Wherever you go, life comes back. No timers, no enemies, nothing to fail. Playable in your browser.">
+<link rel="canonical" href="https://mysticartstudio.github.io/glowing-life/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Glowing Life">
+<meta property="og:title" content="Glowing Life">
+<meta property="og:description" content="You are not just exploring this world. You are waking it. A cozy game with no timers, no enemies and nothing to fail.">
+<meta property="og:url" content="https://mysticartstudio.github.io/glowing-life/">
+<meta property="og:image" content="https://mysticartstudio.github.io/glowing-life/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark forest clearing in the rain that turns green and blossoming halfway across, with the words Glowing Life">
+<meta name="twitter:card" content="summary_large_image">
 
 <!-- Das Tab-Icon. KLEIN IST EIN ANDERES BILD ALS GROSS.
      16 und 32 zeigen nur die Figur, eng zugeschnitten aus Schlicht_quadrat.
@@ -489,6 +512,46 @@
     background: var(--moos);
   }
 
+  /* ------------------------------------------------------- WUNSCHREIHE
+     Wunsch, Truhe, Leiste: das ist wirklich eine Reihenfolge, deshalb eine
+     geordnete Liste. Auf dem Handy eine Wischreihe statt drei hoher Bilder
+     untereinander. Das naechste Bild ragt angeschnitten herein, so sieht
+     man, dass es weitergeht. Ab 760 Pixeln drei Spalten nebeneinander. */
+  .wunschreihe {
+    list-style: none;
+    margin-block: 34px 0;
+    padding: 0 0 10px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 78%;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+  }
+  .wunschreihe li { scroll-snap-align: start; display: flex; }
+  @media (min-width: 760px) {
+    .wunschreihe {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+      overflow: visible;
+      padding-bottom: 0;
+    }
+  }
+  /* Gleich hohe Unterschriften, auch wenn ein Satz eine Zeile laenger ist. */
+  .wunschreihe .bild { display: flex; flex-direction: column; width: 100%; }
+  .wunschreihe img { aspect-ratio: 4 / 5; object-fit: cover; }
+  .wunschreihe figcaption { flex: 1; }
+  .wunschreihe figcaption b {
+    display: block;
+    font-family: var(--schrift-anzeige);
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--pergament);
+    margin-bottom: 2px;
+  }
+
   /* --------------------------------------------------------- STIMMEN
      Echte Kommentare von der itch-Seite, mit Namen. Bewusst ohne
      Anfuehrungszeichen-Ornament und ohne Kasten: es sind zwei Saetze von
@@ -786,11 +849,55 @@
           The ground changes around it and the grove closes in a little.
         </p>
         <p class="fliess">
-          You never place any of it yourself. You just keep coming back and
-          every time there is more waiting for you than when you left.
+          The trees and creatures find their own places. You just keep coming
+          back and every time there is more waiting for you than when you left.
         </p>
       </div>
     </div>
+  </section>
+
+  <hr class="teiler">
+
+  <section id="wishes">
+    <div class="spalte">
+      <p class="marke">Collect and decorate</p>
+      <h2>The animals have wishes too.</h2>
+      <p class="fliess">
+        As the world comes back to life, the animals of the grove begin to
+        settle in. But sometimes they need a little help finding a place that
+        feels like home.
+      </p>
+      <p class="fliess">
+        <strong>Explore the places you have woken, discover hidden treasures
+        and bring the animals what they need.</strong> Then choose where to
+        place each piece in your grove and watch the little world grow around
+        you.
+      </p>
+    </div>
+
+    <ol class="wunschreihe">
+      <li>
+        <figure class="bild">
+          <img src="img/wunsch.jpg" width="840" height="1050" loading="lazy"
+               alt="A thought bubble with a hollow log floats beside the grove pond. Below it the words: The fox cubs are looking for a hideout. One is waiting in a chest where their mother called for them.">
+          <figcaption><b>A wish</b>A small bubble shows what an animal is missing and a few words say where to look.</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="bild">
+          <img src="img/truhe.jpg" width="840" height="1050" loading="lazy"
+               alt="An old wooden chest at the foot of a purple cliff, warm light spilling from under its lid and small sparks rising">
+          <figcaption><b>A chest</b>Go back to a place you already woke. Come close and light spills out from under the lid.</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="bild">
+          <img src="img/leiste.jpg" width="840" height="1050" loading="lazy"
+               alt="The glowing light being in the grass. At the bottom of the screen a row of round slots: a bird feeder, clover and a fish rack already found, a log and a bench still dark">
+          <figcaption><b>Your grove</b>Everything you find waits in a little bar. Drag it out and set it down wherever it feels right.</figcaption>
+        </figure>
+      </li>
+    </ol>
   </section>
 
   <hr class="teiler">
