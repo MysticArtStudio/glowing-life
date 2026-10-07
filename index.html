@@ -543,6 +543,21 @@
   .wunschreihe .bild { display: flex; flex-direction: column; width: 100%; }
   .wunschreihe img { aspect-ratio: 4 / 5; object-fit: cover; }
   .wunschreihe figcaption { flex: 1; }
+  /* Gestalter und Fotos bleiben hochkant: die Fotos haben ihren Rahmen am
+     Rand, ein 4:5-Zuschnitt schnitte ihn ab. */
+  .wunschreihe.hochkant img,
+  .wunschreihe.hochkant video { aspect-ratio: 9 / 16; object-fit: cover; }
+  /* Die Welten aus den Werbebildern, hochkant 4:5 (07.10.2026): zwei mal
+     zwei, auf breiten Schirmen vier nebeneinander. */
+  .wunschreihe.quer img { aspect-ratio: 3 / 2; object-fit: cover; }
+  @media (min-width: 760px) {
+    .wunschreihe.quer { grid-template-columns: repeat(2, 1fr); }
+    .wunschreihe.welten { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1000px) {
+    .wunschreihe.welten { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  }
+  .spalte > .spaeter { margin-top: 0; }
   .wunschreihe figcaption b {
     display: block;
     font-family: var(--schrift-anzeige);
@@ -731,8 +746,8 @@
 
     <div class="bildspalte">
     <div class="erwecken" id="erwecken" data-richtung="wecken">
-      <img class="bild-wach" id="bildWach" src="img/wach.jpg" alt="The same clearing awake: green grass, blossoming trees in pink and orange, fireflies over the water">
-      <img class="bild-schlafend" id="bildSchlafend" src="img/schlafend.jpg" alt="A forest clearing at night, dark and asleep in the rain">
+      <img class="bild-wach" id="bildWach" src="img/wach.jpg" alt="The same riverbank awake: pink willows, green grass with white flowers, an orange tree, a bridge of living roots over a blue river and birds landing beside the light being">
+      <img class="bild-schlafend" id="bildSchlafend" src="img/schlafend.jpg" alt="A riverbank at night, dark and asleep: grey willows, a black river and the small glowing light being in the grass">
       <div class="schein" id="schein"></div>
 
       <div class="richtung" role="group" aria-label="Which way the light runs">
@@ -781,8 +796,109 @@
 
   <hr class="teiler">
 
+  <section id="the-grove">
+    <div class="band gedreht">
+      <figure class="bild">
+        <img src="img/hirsch.jpg" alt="A deer with glowing blue patterns on its coat standing at the edge of the grove pond, a pink willow behind it" width="840" height="1050" loading="lazy">
+        <figcaption>The deer settles by the pond once you have earned its trust and brings its own patch of meadow with it.</figcaption>
+      </figure>
+      <div>
+        <p class="marke">The grove</p>
+        <h2>You are not picking levels. You are building a home.</h2>
+        <p class="fliess">
+          The grove starts almost empty. Dark grass, still water, a book and
+          not much else. Then you finish a place and something comes home
+          with you: a tree, a landmark, a creature you woke.
+          <strong>Each one brings a piece of its own habitat home with it.</strong>
+          The ground changes around it and the grove closes in a little.
+        </p>
+        <p class="fliess">
+          Some creatures settle in on their own. Other pieces are yours to
+          discover and place. Every time you come back, there is more waiting
+          for you than when you left.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="teiler">
+
+  <section id="make-it-yours">
+    <div class="spalte">
+      <p class="marke">Make it yours</p>
+      <h2>Dress the animals you brought home. Then keep the moment.</h2>
+      <b class="spaeter">Not in the demo yet</b>
+      <p class="fliess">
+        Every animal that moves into your grove can look the way you like.
+        Choose its coat, how sturdy it is, the size of its eyes and ears, and
+        a soft glow that runs in patterns along its fur. One tap puts it back
+        the way you found it.
+      </p>
+      <p class="fliess">
+        <strong>And when the light falls just right, stop and take a picture.</strong>
+        Pick a filter, from warm light to a moonlit night, set a frame around
+        it and the moment is kept.
+      </p>
+    </div>
+
+    <ul class="wunschreihe hochkant">
+      <li>
+        <figure class="bild">
+          <video src="img/gestalter.mp4" poster="img/gestalter_still.jpg"
+                 width="540" height="960"
+                 autoplay loop muted playsinline preload="metadata"
+                 disablepictureinpicture disableremoteplayback
+                 aria-label="A red panda with glowing white patterns in its fur walks through the grove, a fox behind it. Then the designer: a rabbit and a red panda change their coat, build, eyes and face, and the panda starts to glow pink. Over the panel the lines read: Make your little companion yours. Give them their own look. Change their coat, eyes, face and more. And bring them to life."></video>
+          <figcaption><b>The designer</b>Coat, build, eyes, ears, face and a glow of its own, for every animal that moved in.</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="bild">
+          <img src="img/foto_aktion.jpg" width="720" height="1280" loading="lazy"
+               alt="The photo mode in the grove: a brown bear in the grass by the pond under pink and orange trees, buttons for frame and filter around the edge, and in the lower right corner the photo just taken, the bear beside the glowing light being in a golden frame">
+          <figcaption><b>A golden frame</b>The picture lands in the corner the moment you take it. The bear wanted to be in it too.</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="bild">
+          <img src="img/foto_nacht.jpg" width="720" height="1280" loading="lazy"
+               alt="A night photo inside a frame of soft round lights: the light being, a deer glowing in blue and the level book on its stand, under a moonlit sky">
+          <figcaption><b>Moonlit night</b>The deer by the book after dark, with a frame of soft lights.</figcaption>
+        </figure>
+      </li>
+    </ul>
+  </section>
+
+  <hr class="teiler">
+
   <section>
     <div class="band">
+      <figure class="bild">
+        <img src="img/voegel.jpg" alt="Birds landing on a riverbank that has just woken: a green, a yellow and a red bird on the rocks by the water, a magenta one on a stone in front, more circling in the sky above pink weeping willows, a bridge of living roots behind and the light being glowing in the middle" width="840" height="1050" loading="lazy">
+        <figcaption>Fourteen different plumages and every bird a slightly different size.</figcaption>
+      </figure>
+      <div>
+        <p class="marke">What comes back</p>
+        <h2>Finish a place and the birds arrive.</h2>
+        <p class="fliess">
+          They fly in, pick a spot and land on it: a rock, a branch, the grass
+          beside you. Then they stay. They shake themselves out, scratch, peck
+          at the ground and look over at you.
+        </p>
+        <p class="fliess">
+          <strong>Walk into them and they do not scatter. They make room.</strong>
+          A hop to the side, a few quick steps, or a short low arc to a spot
+          two meters over and then they settle again. And if you stand still
+          long enough, one of them will land on your head.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="teiler">
+
+  <section>
+    <div class="band gedreht">
       <figure class="bild">
         <video src="img/levelbuch.mp4" poster="img/levelbuch_still.jpg"
                autoplay loop muted playsinline preload="metadata"
@@ -807,55 +923,48 @@
 
   <hr class="teiler">
 
-  <section>
-    <div class="band">
-      <figure class="bild">
-        <img src="img/voegel.jpg" alt="A pink bird and a yellow bird sitting close together on a branch above a glowing pond">
-        <figcaption>Fourteen different plumages and every bird a slightly different size.</figcaption>
-      </figure>
-      <div>
-        <p class="marke">What comes back</p>
-        <h2>Finish a place and the birds arrive.</h2>
-        <p class="fliess">
-          They fly in, pick a spot and land on it: a rock, a branch, the grass
-          beside you. Then they stay. They shake themselves out, scratch, peck
-          at the ground and look over at you.
-        </p>
-        <p class="fliess">
-          <strong>Walk into them and they do not scatter. They make room.</strong>
-          A hop to the side, a few quick steps, or a short low arc to a spot
-          two meters over and then they settle again. And if you stand still
-          long enough, one of them will land on your head.
-        </p>
-      </div>
+  <section id="worlds">
+    <div class="spalte">
+      <p class="marke">Beyond the forest</p>
+      <h2>Three more worlds are waiting to wake.</h2>
+      <b class="spaeter">Not in the demo yet</b>
+      <p class="fliess">
+        An enchanted wood that glows at night, a glacier that keeps its
+        secrets in blue ice and a desert where even the lava has gone cold.
+        Each of them sleeps in its own way, and each wakes in its own way.
+      </p>
     </div>
-  </section>
 
-  <hr class="teiler">
-
-  <section id="the-grove">
-    <div class="band gedreht">
-      <figure class="bild">
-        <img src="img/hirsch.jpg" alt="A glowing translucent deer standing at the edge of a pond in the grove">
-        <figcaption>The deer settles by the pond once you have earned its trust and brings its own patch of meadow with it.</figcaption>
-      </figure>
-      <div>
-        <p class="marke">The grove</p>
-        <h2>You are not picking levels. You are building a home.</h2>
-        <p class="fliess">
-          The grove starts almost empty. Dark grass, still water, a book and
-          not much else. Then you finish a place and something comes home
-          with you: a tree, a landmark, a creature you woke.
-          <strong>Each one brings a piece of its own habitat home with it.</strong>
-          The ground changes around it and the grove closes in a little.
-        </p>
-        <p class="fliess">
-          Some creatures settle in on their own. Other pieces are yours to
-          discover and place. Every time you come back, there is more waiting
-          for you than when you left.
-        </p>
-      </div>
-    </div>
+    <ul class="wunschreihe welten">
+      <li>
+        <figure class="bild">
+          <img src="img/welt_leuchtbach.jpg" width="720" height="900" loading="lazy"
+               alt="A stream of glowing white and violet light winding through a dark enchanted forest, a tree with shining pink leaves behind it and the light being standing on a stone in the water">
+          <figcaption><b>The Enchanted Forest</b>A stream that glows beneath a shining tree.</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="bild">
+          <img src="img/welt_kristall.jpg" width="720" height="900" loading="lazy"
+               alt="Tall magenta and blue crystals in a dark cave of roots, glowing mushrooms around them and the light being sitting on a mossy rock in front">
+          <figcaption><b>The Crystal Heart</b>Deep inside a hollow tree, the crystals keep the moonlight.</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="bild">
+          <img src="img/welt_eishoehle.jpg" width="720" height="900" loading="lazy"
+               alt="A cave of glowing blue ice with long icicles, the skeleton of a great creature frozen into the ceiling and the light being glowing in the snow below">
+          <figcaption><b>The Glacier</b>Something ancient sleeps in the blue ice.</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="bild">
+          <img src="img/welt_lava.jpg" width="720" height="900" loading="lazy"
+               alt="Black rocks under a red sky and drifting smoke, cracks of glowing lava between them and the light being on a ledge">
+          <figcaption><b>Rivers of Ember</b>The cold stone remembers how to glow.</figcaption>
+        </figure>
+      </li>
+    </ul>
   </section>
 
   <hr class="teiler">
@@ -881,7 +990,7 @@
       <li>
         <figure class="bild">
           <img src="img/wunsch.jpg" width="840" height="1050" loading="lazy"
-               alt="A thought bubble with a hollow log floats beside the grove pond. Below it the words: The fox cubs are looking for a hideout. One is waiting in a chest where their mother called for them.">
+               alt="A thought bubble with a hollow log floats above a fox and her cub by the grove pond, the light being standing beside them. Below it the words: The fox cubs are looking for a hideout. One is waiting in a chest by the Sleeping Giant.">
           <figcaption><b>A wish</b>A small bubble shows what an animal is wishing for, with a few words pointing you towards it.</figcaption>
         </figure>
       </li>
