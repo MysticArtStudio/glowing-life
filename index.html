@@ -547,15 +547,11 @@
      Rand, ein 4:5-Zuschnitt schnitte ihn ab. */
   .wunschreihe.hochkant img,
   .wunschreihe.hochkant video { aspect-ratio: 9 / 16; object-fit: cover; }
-  /* Die Welten aus den Werbebildern, hochkant 4:5 (07.10.2026): zwei mal
-     zwei, auf breiten Schirmen vier nebeneinander. */
+  /* Die Welten aus den Werbebildern, hochkant 4:5 wie die Wuensche: drei
+     Welten, drei Spalten (07.10.2026). */
   .wunschreihe.quer img { aspect-ratio: 3 / 2; object-fit: cover; }
   @media (min-width: 760px) {
     .wunschreihe.quer { grid-template-columns: repeat(2, 1fr); }
-    .wunschreihe.welten { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (min-width: 1000px) {
-    .wunschreihe.welten { grid-template-columns: repeat(4, 1fr); gap: 18px; }
   }
   .spalte > .spaeter { margin-top: 0; }
   .wunschreihe figcaption b {
@@ -799,8 +795,8 @@
   <section id="the-grove">
     <div class="band gedreht">
       <figure class="bild">
-        <img src="img/hirsch.jpg" alt="A deer with glowing blue patterns on its coat standing at the edge of the grove pond, a pink willow behind it" width="840" height="1050" loading="lazy">
-        <figcaption>The deer settles by the pond once you have earned its trust and brings its own patch of meadow with it.</figcaption>
+        <img src="img/hain_familie.jpg" alt="The grove at dusk under a pink willow: the light being sits on a rock by the stream, and around it a bear, two red pandas, two foxes, a rabbit and a deer with glowing patterns on its coat, with lupines in front" width="840" height="1050" loading="lazy">
+        <figcaption>Everyone you woke comes home with you: the bear, the red pandas, the foxes, the rabbit and the deer.</figcaption>
       </figure>
       <div>
         <p class="marke">The grove</p>
@@ -929,8 +925,8 @@
       <h2>Three more worlds are waiting to wake.</h2>
       <b class="spaeter">Not in the demo yet</b>
       <p class="fliess">
-        An enchanted wood that glows at night, a glacier that keeps its
-        secrets in blue ice and a desert where even the lava has gone cold.
+        An enchanted wood where crystals keep the moonlight, a desert where
+        the oases have run dry and mountains under the northern lights.
         Each of them sleeps in its own way, and each wakes in its own way.
       </p>
     </div>
@@ -938,30 +934,23 @@
     <ul class="wunschreihe welten">
       <li>
         <figure class="bild">
-          <img src="img/welt_leuchtbach.jpg" width="720" height="900" loading="lazy"
-               alt="A stream of glowing white and violet light winding through a dark enchanted forest, a tree with shining pink leaves behind it and the light being standing on a stone in the water">
-          <figcaption><b>The Enchanted Forest</b>A stream that glows beneath a shining tree.</figcaption>
-        </figure>
-      </li>
-      <li>
-        <figure class="bild">
           <img src="img/welt_kristall.jpg" width="720" height="900" loading="lazy"
                alt="Tall magenta and blue crystals in a dark cave of roots, glowing mushrooms around them and the light being sitting on a mossy rock in front">
-          <figcaption><b>The Crystal Heart</b>Deep inside a hollow tree, the crystals keep the moonlight.</figcaption>
+          <figcaption><b>The Enchanted Forest</b>Deep inside a hollow tree, the crystals keep the moonlight.</figcaption>
         </figure>
       </li>
       <li>
         <figure class="bild">
-          <img src="img/welt_eishoehle.jpg" width="720" height="900" loading="lazy"
-               alt="A cave of glowing blue ice with long icicles, the skeleton of a great creature frozen into the ceiling and the light being glowing in the snow below">
-          <figcaption><b>The Glacier</b>Something ancient sleeps in the blue ice.</figcaption>
+          <img src="img/welt_wueste.jpg" width="720" height="900" loading="lazy"
+               alt="A ring of light in a grey, sleeping desert: inside it the sky glows orange behind red rock spires and the light being sits by a turquoise oasis that has just woken">
+          <figcaption><b>The Desert</b>Where the light reaches, the oasis remembers its water.</figcaption>
         </figure>
       </li>
       <li>
         <figure class="bild">
-          <img src="img/welt_lava.jpg" width="720" height="900" loading="lazy"
-               alt="Black rocks under a red sky and drifting smoke, cracks of glowing lava between them and the light being on a ledge">
-          <figcaption><b>Rivers of Ember</b>The cold stone remembers how to glow.</figcaption>
+          <img src="img/welt_alpen.jpg" width="720" height="900" loading="lazy"
+               alt="Snowy mountains under green northern lights, the light being in the snow by a frozen lake, with lupines and snowdrops in front">
+          <figcaption><b>The Mountains</b>Under the northern lights, the flowers wait in the snow.</figcaption>
         </figure>
       </li>
     </ul>
