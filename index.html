@@ -226,7 +226,7 @@
   .kanaele a:hover { color: var(--glut); }
   .kanaele a:hover span { text-decoration: underline; text-underline-offset: 3px; }
 
-  /* Die vier Marken als schlichte Striche gezeichnet, nicht als Bilddateien:
+  /* Die Marken als schlichte Striche gezeichnet, nicht als Bilddateien:
      so nehmen sie die Schriftfarbe an und wiegen nichts. */
   .kanaele svg {
     width: 17px;
@@ -678,6 +678,8 @@
   }
   .ersatz b { font-weight: 500; }
   .ersatz span { color: var(--gedaempft); font-size: 13px; }
+  /* display oben schlaegt sonst das hidden-Attribut: der Ersatz stand seit September immer neben dem Abzeichen */
+  .ersatz[hidden] { display: none; }
 
   /* --------------------------------------------------------------- FUSS */
 
@@ -705,7 +707,7 @@
 
   <header class="kopf">
     <div>
-      <p class="marke">In development &middot; Playable in your browser</p>
+      <p class="marke">Coming soon to Steam &middot; Demo in your browser</p>
       <h1>Glowing Life</h1>
       <p class="these">You are not just exploring this world. You are waking it.</p>
       <p class="vorspann">
@@ -716,12 +718,15 @@
         <strong>No timers, no enemies, nothing to fail.</strong>
       </p>
       <div class="knopfreihe">
-        <a class="knopf knopf-voll" href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">Play the demo</a>
-        <a class="knopf knopf-leer" href="#the-grove">What you are building</a>
+        <a class="knopf knopf-voll" href="https://store.steampowered.com/app/5433680/Glowing_Life/" target="_blank" rel="noopener">Wishlist on Steam</a>
+        <a class="knopf knopf-leer" href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">Play the demo</a>
       </div>
-      <p class="kleingedruckt">Runs in your browser, no download. Free.</p>
+      <p class="kleingedruckt">The demo runs in your browser, no download. Free.</p>
 
       <ul class="kanaele">
+        <li><a href="https://store.steampowered.com/app/5433680/Glowing_Life/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="15.2" cy="9.3" r="2.4"/><circle cx="8.9" cy="15.1" r="1.7"/><path d="M13.4 11 10.3 13.9"/></svg>
+          <span>Steam</span></a></li>
         <li><a href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.6 4.6h12.8l2.4 3.8v2c0 1.3-1.7 1.7-2.5.7-.8 1-2.2 1-3 0-.8 1-2.2 1-3 0-.8 1-2.2 1-3 0-.8 1-2.5.6-2.5-.7v-2z"/><path d="M5 11.2V19h14v-7.8"/><path d="M9.9 19v-3.8h4.2V19"/></svg>
           <span>itch.io</span></a></li>
@@ -795,7 +800,7 @@
   <section id="the-grove">
     <div class="band gedreht">
       <figure class="bild">
-        <img src="img/hain_familie.jpg" alt="The grove at dusk under a pink willow: the light being sits on a rock by the stream, and around it a bear, two red pandas, two foxes, a rabbit and a deer with glowing patterns on its coat, with lupines in front" width="840" height="1050" loading="lazy">
+        <img src="img/hain_familie.jpg" alt="The grove at dusk under a pink willow: the light being sits on a rock by the stream. Around it are a bear, two red pandas, two foxes, a rabbit and a deer with glowing patterns on its coat, with lupines in front" width="840" height="1050" loading="lazy">
         <figcaption>Everyone you woke comes home with you: the bear, the red pandas, the foxes, the rabbit and the deer.</figcaption>
       </figure>
       <div>
@@ -826,8 +831,8 @@
       <b class="spaeter">Not in the demo yet</b>
       <p class="fliess">
         Every animal that moves into your grove can look the way you like.
-        Choose its coat, how sturdy it is, the size of its eyes and ears, and
-        a soft glow that runs in patterns along its fur. One tap puts it back
+        Choose its coat, how sturdy it is and the size of its eyes and ears.
+        Give it a soft glow that runs in patterns along its fur. One tap puts it back
         the way you found it.
       </p>
       <p class="fliess">
@@ -844,14 +849,14 @@
                  width="540" height="960"
                  autoplay loop muted playsinline preload="metadata"
                  disablepictureinpicture disableremoteplayback
-                 aria-label="A red panda with glowing white patterns in its fur walks through the grove, a fox behind it. Then the designer: a rabbit and a red panda change their coat, build, eyes and face, and the panda starts to glow pink. Over the panel the lines read: Make your little companion yours. Give them their own look. Change their coat, eyes, face and more. And bring them to life."></video>
+                 aria-label="A red panda with glowing white patterns in its fur walks through the grove, a fox behind it. Then the designer: a rabbit and a red panda change their coat, build, eyes and face. The panda starts to glow pink. Over the panel the lines read: Make your little companion yours. Give them their own look. Change their coat, eyes, face and more. And bring them to life."></video>
           <figcaption><b>The designer</b>Coat, build, eyes, ears, face and a glow of its own, for every animal that moved in.</figcaption>
         </figure>
       </li>
       <li>
         <figure class="bild">
           <img src="img/foto_aktion.jpg" width="720" height="1280" loading="lazy"
-               alt="The photo mode in the grove: a brown bear in the grass by the pond under pink and orange trees, buttons for frame and filter around the edge, and in the lower right corner the photo just taken, the bear beside the glowing light being in a golden frame">
+               alt="The photo mode in the grove: a brown bear in the grass by the pond under pink and orange trees, with buttons for frame and filter around the edge. In the lower right corner is the photo just taken, the bear beside the glowing light being in a golden frame">
           <figcaption><b>A golden frame</b>The picture lands in the corner the moment you take it. The bear wanted to be in it too.</figcaption>
         </figure>
       </li>
@@ -927,7 +932,7 @@
       <p class="fliess">
         An enchanted wood where crystals keep the moonlight, a desert where
         the oases have run dry and mountains under the northern lights.
-        Each of them sleeps in its own way, and each wakes in its own way.
+        Each of them sleeps in its own way. Each wakes in its own way.
       </p>
     </div>
 
@@ -1057,19 +1062,25 @@
       <p class="marke">Where to find it</p>
       <h2>Come play, or follow along.</h2>
       <p class="fliess">
-        The demo lives on itch and runs in your browser. Everything else is
-        where I post the small steps: the things that finally worked and the
-        ones that broke first.
+        Glowing Life is coming to Steam. A wishlist there helps more than
+        anything else. The demo lives on itch and runs in your browser.
+        Everything else is where I post the small steps: the things that
+        finally worked and the ones that broke first.
       </p>
 
       <div class="knopfreihe">
-        <a class="knopf knopf-voll" href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">Play the demo</a>
+        <a class="knopf knopf-voll" href="https://store.steampowered.com/app/5433680/Glowing_Life/" target="_blank" rel="noopener">Wishlist on Steam</a>
+        <a class="knopf knopf-leer" href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">Play the demo</a>
       </div>
 
       <ul class="wege">
         <li>
+          <a href="https://store.steampowered.com/app/5433680/Glowing_Life/" target="_blank" rel="noopener">Steam</a>
+          <em>Wishlist it and Steam tells you the day it comes out</em>
+        </li>
+        <li>
           <a href="https://www.threads.com/@glowing.life.game" target="_blank" rel="noopener">Threads</a>
-          <em>Where I post the most, and where you can talk back</em>
+          <em>Where I post the most and where you can talk back</em>
         </li>
         <li>
           <a href="https://www.instagram.com/glowing.life.game/" target="_blank" rel="noopener">Instagram</a>
@@ -1102,6 +1113,7 @@
     <div class="fusszeilen">
       <span>Glowing Life &middot; a cozy game about waking a sleeping world</span>
       <span class="fusslinks">
+        <a href="https://store.steampowered.com/app/5433680/Glowing_Life/" target="_blank" rel="noopener">Steam</a>
         <a href="https://mysticartstudio.itch.io/glowing-life" target="_blank" rel="noopener">itch.io</a>
         <a href="https://www.threads.com/@glowing.life.game" target="_blank" rel="noopener">Threads</a>
         <a href="https://www.instagram.com/glowing.life.game/" target="_blank" rel="noopener">Instagram</a>
